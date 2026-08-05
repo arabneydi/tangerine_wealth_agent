@@ -97,12 +97,15 @@ Seed users:
 
 ## Running the tests
 
+Unit tests (deterministic, instant, no API key):
 ```
-pytest tests/ -v
+pytest tests/test_tools.py -v
 ```
-Runs everything: deterministic unit tests (instant, no API key) plus the two
-required live trajectory evals (needs `GOOGLE_API_KEY`, real Gemini calls).
-To run just the free/instant part: `pytest tests/test_tools.py -v`.
+
+Trajectory / agent performance evals (needs `GOOGLE_API_KEY`, real Gemini calls):
+```
+pytest tests/test_evalsets.py -v
+```
 
 Equivalent CLI form for the evalsets:
 ```
