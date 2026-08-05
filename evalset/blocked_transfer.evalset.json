@@ -1,0 +1,66 @@
+{
+  "eval_set_id": "blocked_transfer_unauthenticated_set",
+  "name": "Blocked Transfer (Unauthenticated)",
+  "description": "Verifies the agent never calls execute_transfer when the session is not yet VERIFIED, and instead calls get_security_question.",
+  "eval_cases": [
+    {
+      "evalId": "blocked_transfer_unauthenticated",
+      "conversation": [
+        {
+          "invocationId": "inv_1",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Transfer $500 from my checking to my savings account. My user id is user_001."
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Before I can process a transfer, I need to verify your identity. Security question: What city were you born in?"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "id": "c1",
+                "args": {
+                  "user_id": "user_001"
+                },
+                "name": "get_security_question"
+              }
+            ],
+            "toolResponses": [
+              {
+                "id": "c1",
+                "name": "get_security_question",
+                "response": {
+                  "status": "success",
+                  "security_question": "What city were you born in?"
+                }
+              }
+            ],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "wealth_management_assistant",
+        "userId": "user_001",
+        "state": {}
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {
+        "verification_status": "QUESTION_ISSUED",
+        "attempts": 0,
+        "pending_user_id": "user_001"
+      }
+    }
+  ],
+  "creation_timestamp": 0.0
+}

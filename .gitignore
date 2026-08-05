@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.db
+.DS_Store
+
+# ADK-generated runtime state (session storage, eval-run history) -- not source
+wealth_agent/.adk/
+
+# Secrets -- never commit API keys
+.env
+wealth_agent/.env

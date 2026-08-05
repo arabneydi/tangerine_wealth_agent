@@ -1,0 +1,131 @@
+{
+  "eval_set_id": "successful_transfer_authenticated_set",
+  "name": "Successful Transfer (Authenticated)",
+  "description": "Verifies the full trajectory: security question issued, correct answer validated, and execute_transfer only called after VERIFIED.",
+  "eval_cases": [
+    {
+      "evalId": "successful_transfer_authenticated",
+      "conversation": [
+        {
+          "invocationId": "inv_1",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Transfer $500 from my checking to my savings account. My user id is user_001."
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Before I can process a transfer, I need to verify your identity. Security question: What city were you born in?"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "id": "c1",
+                "args": {
+                  "user_id": "user_001"
+                },
+                "name": "get_security_question"
+              }
+            ],
+            "toolResponses": [
+              {
+                "id": "c1",
+                "name": "get_security_question",
+                "response": {
+                  "status": "success",
+                  "security_question": "What city were you born in?"
+                }
+              }
+            ],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        },
+        {
+          "invocationId": "inv_2",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Toronto"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Thanks, you're verified. I've transferred $500 from checking to savings. Your new checking balance is $2000.00 and savings balance is $10500.00."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "id": "c2",
+                "args": {
+                  "answer": "Toronto"
+                },
+                "name": "validate_security_answer"
+              },
+              {
+                "id": "c3",
+                "args": {
+                  "user_id": "user_001",
+                  "from_account": "checking",
+                  "to_account": "savings",
+                  "amount": 500
+                },
+                "name": "execute_transfer"
+              }
+            ],
+            "toolResponses": [
+              {
+                "id": "c2",
+                "name": "validate_security_answer",
+                "response": {
+                  "status": "success",
+                  "verified": true
+                }
+              },
+              {
+                "id": "c3",
+                "name": "execute_transfer",
+                "response": {
+                  "status": "success",
+                  "user_id": "user_001",
+                  "amount": 500,
+                  "from_account": "checking",
+                  "to_account": "savings",
+                  "new_checking_balance": 2000.0,
+                  "new_savings_balance": 10500.0
+                }
+              }
+            ],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "wealth_management_assistant",
+        "userId": "user_001",
+        "state": {}
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {
+        "verification_status": "VERIFIED",
+        "attempts": 0,
+        "pending_user_id": "user_001"
+      }
+    }
+  ],
+  "creation_timestamp": 0.0
+}
